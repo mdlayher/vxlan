@@ -55,7 +55,7 @@ func (f *Frame) MarshalBinary() ([]byte, error) {
 		return nil, ErrInvalidVNI
 	}
 
-	efb, err := f.Ethernet.MarshalFCS()
+	efb, err := f.Ethernet.MarshalBinary()
 	if err != nil {
 		return nil, err
 	}
@@ -88,7 +88,7 @@ func (f *Frame) UnmarshalBinary(b []byte) error {
 	f.VNI = VNI(binary.BigEndian.Uint32(b[3:]))
 
 	ef := new(ethernet.Frame)
-	if err := ef.UnmarshalFCS(b[8:]); err != nil {
+	if err := ef.UnmarshalBinary(b[8:]); err != nil {
 		return err
 	}
 	f.Ethernet = ef
